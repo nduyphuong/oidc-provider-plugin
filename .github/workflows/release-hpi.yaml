@@ -1,0 +1,28 @@
+# Note: additional setup is required, see https://www.jenkins.io/redirect/continuous-delivery-of-plugins
+
+name: cd
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+          cache: 'maven'
+      - name: Build
+        run: mvn install
+      - name: Release Hp
+        run: mvn hpi:hpi
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: oidc-provider.hpi file
+          path: |
+            target/oidc-provider.hpi
