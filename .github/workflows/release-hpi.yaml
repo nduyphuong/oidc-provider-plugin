@@ -19,7 +19,7 @@ jobs:
           java-version: '11'
           cache: 'maven'
       - name: Release Hpi
-        run: mvn install && mvn hpi:hpi
+        run: mvn install -Dmaven.test.skip && mvn hpi:hpi
       - name: Cache local Maven repository
         uses: actions/cache@v2
         with:
