@@ -18,10 +18,15 @@ jobs:
           distribution: 'temurin'
           java-version: '11'
           cache: 'maven'
-      - name: Build
-        run: mvn install
       - name: Release Hp
         run: mvn hpi:hpi
+      - name: Cache local Maven repository
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
       - name: Upload hpi to release
         uses: svenstaro/upload-release-action@v2
         with:
