@@ -2,7 +2,9 @@
 
 name: cd
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - master
 
 jobs:
   build:
@@ -20,9 +22,12 @@ jobs:
         run: mvn install
       - name: Release Hp
         run: mvn hpi:hpi
-      - name: Archive artifacts
-        uses: actions/upload-artifact@v3
+      - name: Upload hpi to release
+        uses: svenstaro/upload-release-action@v2
         with:
-          name: oidc-provider.hpi file
-          path: |
-            target/oidc-provider.hpi
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: target/oidc-provider.hpi
+          asset_name: oidc-provider
+          tag: "test"
+          overwrite: true
+          body: "This is my release text"
