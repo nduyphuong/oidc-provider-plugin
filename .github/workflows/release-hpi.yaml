@@ -30,6 +30,7 @@ jobs:
       - name: Upload hpi to release
         uses: svenstaro/upload-release-action@v2
         with:
+          repo_name: nduyphuong/oidc-provider-plugin
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: target/oidc-provider.hpi
           asset_name: oidc-provider
