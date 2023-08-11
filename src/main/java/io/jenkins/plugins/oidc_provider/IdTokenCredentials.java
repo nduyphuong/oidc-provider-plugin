@@ -64,6 +64,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
+import java.util.logging.Logger;
+
 import jenkins.model.Jenkins;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -97,7 +99,7 @@ public abstract class IdTokenCredentials extends BaseStandardCredentials {
     protected IdTokenCredentials(CredentialsScope scope, String id, String description) {
         this(scope, id, description, generatePrivateKey());
     }
-
+    private static final Logger LOGGER = Logger.getLogger(Keys.class.getName());
     private static KeyPair generatePrivateKey() {
         KeyPairGenerator gen;
         try {
@@ -106,6 +108,7 @@ public abstract class IdTokenCredentials extends BaseStandardCredentials {
             throw new AssertionError(x);
         }
         gen.initialize(2048);
+        LOGGER.fine("generating new key pair");
         return gen.generateKeyPair();
     }
 
